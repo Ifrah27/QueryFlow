@@ -1,0 +1,123 @@
+HEART TABLE FOUND: ('uploaded_heart_9b85d1',)
+
+======================================================================
+USER: yo bro
+RAW route_response: off_topic
+RAW final_answer  : "I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset. Ask me something about your data and I
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: AIMessage content="I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset."
+API intent=off_topic route=off_topic sql='' status=None
+API answer: "I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset. Ask me something about your data and I'll take care of the SQL and analysis."
+
+======================================================================
+USER: what are you doing?
+RAW route_response: off_topic
+RAW final_answer  : "I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset. Ask me something about your data and I
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: AIMessage content="I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset."
+API intent=off_topic route=off_topic sql='' status=None
+API answer: "I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset. Ask me something about your data and I'll take care of the SQL and analysis."
+
+======================================================================
+USER: hey
+RAW route_response: off_topic
+RAW final_answer  : "I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset. Ask me something about your data and I
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: AIMessage content="I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset."
+API intent=off_topic route=off_topic sql='' status=None
+API answer: "I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset. Ask me something about your data and I'll take care of the SQL and analysis."
+
+======================================================================
+USER: How are you?
+RAW route_response: off_topic
+RAW final_answer  : "I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset. Ask me something about your data and I
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: AIMessage content="I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset."
+API intent=off_topic route=off_topic sql='' status=None
+API answer: "I'm QueryFlow, an AI data analysis assistant. I'm here to help you explore and analyze your connected dataset. Ask me something about your data and I'll take care of the SQL and analysis."
+
+======================================================================
+USER: Delhi is capital of which country?
+RAW route_response: off_topic
+RAW final_answer  : "Delhi is the capital of India, but as QueryFlow, my focus is on helping you explore and analyze your connected dataset rather than answering general 
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: AIMessage content='Delhi is the capital of India, but as QueryFlow, my focus is on helping you explore and analyze your connected'
+API intent=off_topic route=off_topic sql='' status=None
+API answer: "Delhi is the capital of India, but as QueryFlow, my focus is on helping you explore and analyze your connected dataset rather than answering general knowledge trivia. \n\nFeel free to ask me a questi
+
+======================================================================
+USER: tell me
+RAW route_response: unclear
+RAW final_answer  : 'What would you like to know about your dataset? You can ask about counts, averages, trends, comparisons, or specific records.'
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: AIMessage content='What would you like to know about your dataset? You can ask about counts, averages, trends, comparisons, or sp'
+API intent=unclear route=unclear sql='' status=None
+API answer: 'What would you like to know about your dataset? You can ask about counts, averages, trends, comparisons, or specific records.'
+
+======================================================================
+USER: show me
+RAW route_response: unclear
+RAW final_answer  : 'What would you like to know about your dataset? You can ask about counts, averages, trends, comparisons, or specific records.'
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: AIMessage content='What would you like to know about your dataset? You can ask about counts, averages, trends, comparisons, or sp'
+API intent=unclear route=unclear sql='' status=None
+API answer: 'What would you like to know about your dataset? You can ask about counts, averages, trends, comparisons, or specific records.'
+
+======================================================================
+USER: How many patients have heart disease?
+RAW route_response: sql
+RAW final_answer  : 'Based on the data, there are 508 cases where heart disease is present.'
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: DICT keys=['messages', 'user_question', 'curated_ques', 'prompt_query_context', 'generated_sql_query', 'is_safe', 'comments', 'sql_query_execution_result', 'final_answer'] final_answer='Based on the data, there are 508 cases where heart disease is present.' sql='SELECT count(*) AS count FROM uploaded_heart_9b85d1 WHERE he'
+API intent=dataset route=sql sql='SELECT count(*) AS count FROM uploaded_heart_9b85d' status=executed
+API answer: 'Based on the data, there are 508 cases where heart disease is present.'
+
+======================================================================
+USER: What is the average cholesterol?
+RAW route_response: sql
+RAW final_answer  : 'The average cholesterol level is approximately 198.80.'
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: DICT keys=['messages', 'user_question', 'curated_ques', 'prompt_query_context', 'generated_sql_query', 'is_safe', 'comments', 'sql_query_execution_result', 'final_answer'] final_answer='The average cholesterol level is approximately 198.80.' sql='SELECT avg(cholesterol) FROM uploaded_heart_9b85d1;'
+API intent=dataset route=sql sql='SELECT avg(cholesterol) FROM uploaded_heart_9b85d1' status=executed
+API answer: 'The average cholesterol level is approximately 198.80.'
+
+======================================================================
+USER: Show me the first 10 records
+RAW route_response: sql
+RAW final_answer  : 'Here are the first 10 records from the dataset, showing details such as age, sex, chest pain type, blood pressure, cholesterol, and other health indi
+  RAW msg[0]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[1]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[2]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[3]: HumanMessage content="[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_"
+  RAW msg[4]: DICT keys=['messages', 'user_question', 'curated_ques', 'prompt_query_context', 'generated_sql_query', 'is_safe', 'comments', 'sql_query_execution_result', 'final_answer'] final_answer='Here are the first 10 records from the dataset, showing details such as age, sex' sql='SELECT * FROM uploaded_heart_9b85d1 LIMIT 10;'
+API intent=dataset route=sql sql='SELECT * FROM uploaded_heart_9b85d1 LIMIT 10;' status=executed
+API answer: 'Here are the first 10 records from the dataset, showing details such as age, sex, chest pain type, blood pressure, cholesterol, and other health indicators:\n\n1. **Age 40**, Male, ATA chest pain, Re
+
+DONE
