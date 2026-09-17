@@ -1,0 +1,277 @@
+/* ==========================================================================
+   AI DATA AGENT - MASTER SAAS DESIGN SYSTEM (INDIGO & NAVY DISCIPLINE)
+   Inspired by: Linear, Raycast, Vercel, Stripe Dashboard
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* Core Color Tokens */
+  --bg-app: #F6F7FB;
+  --bg-surface: #FFFFFF;
+  --bg-surface-subtle: #F8FAFC;
+  --bg-sidebar: #0B1220;
+  --bg-sidebar-card: #151D2A;
+  --bg-sidebar-hover: #1E293B;
+
+  --primary: #5B5CE2;
+  --primary-hover: #4F46E5;
+  --primary-soft: #EEF0FF;
+  --secondary: #7C5CFC;
+  --accent: #4F8CFF;
+
+  --text-main: #111827;
+  --text-secondary: #667085;
+  --text-muted: #98A2B3;
+  --text-sidebar: #94A3B8;
+  --text-sidebar-light: #F8FAFC;
+
+  --border-subtle: #E6E8F0;
+  --border-strong: #D0D5DD;
+  --border-sidebar: #1E293B;
+
+  --success-bg: #ECFDF3;
+  --success-text: #12B76A;
+  --success-border: #ABE5C6;
+
+  --warning-bg: #FEF0C7;
+  --warning-text: #F79009;
+
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(16, 24, 40, 0.06), 0 2px 4px -2px rgba(16, 24, 40, 0.04);
+  --shadow-glow: 0 0 20px rgba(91, 92, 226, 0.15);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Base Body & App View Overrides */
+html, body, [data-testid="stAppViewContainer"] {
+  font-family: var(--font-sans) !important;
+  background: var(--bg-app) !important;
+  color: var(--text-main) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Container Width & Spacing */
+.main .block-container {
+  padding-top: 1.25rem !important;
+  padding-bottom: 2.5rem !important;
+  max-width: 1360px !important;
+}
+
+/* Streamlit Header / Footer Clean Chrome */
+header[data-testid="stHeader"] {
+  background: transparent !important;
+}
+footer {
+  display: none !important;
+}
+
+/* Deep Navy Sidebar Override */
+[data-testid="stSidebar"] {
+  background-color: var(--bg-sidebar) !important;
+  border-right: 1px solid var(--border-sidebar) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-testid="stSidebarNav"] {
+  display: none !important;
+}
+
+/* Sidebar Custom Button Navigation styling */
+[data-testid="stSidebar"] .stButton > button {
+  background-color: transparent !important;
+  color: #94A3B8 !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--radius-sm) !important;
+  font-weight: 500 !important;
+  font-size: 0.9rem !important;
+  padding: 0.6rem 0.85rem !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+[data-testid="stSidebar"] .stButton > button:hover {
+  background-color: var(--bg-sidebar-hover) !important;
+  color: #FFFFFF !important;
+}
+
+[data-testid="stSidebar"] .stButton > button[kind="primary"] {
+  background: rgba(91, 92, 226, 0.18) !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  border-left: 3px solid var(--primary) !important;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+}
+
+/* File Uploader Custom Dark Theme inside Sidebar */
+[data-testid="stSidebar"] [data-testid="stFileUploader"] {
+  background-color: var(--bg-sidebar-card) !important;
+  border: 1px dashed #2A364F !important;
+  border-radius: var(--radius-md) !important;
+  padding: 0.75rem !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans) !important;
+  color: var(--text-main) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.025em !important;
+}
+
+/* Hero Cards */
+.saas-hero {
+  background: linear-gradient(135deg, #FFFFFF 0%, #EEF0FF 100%);
+  border: 1px solid #E0E4FF;
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Stat Cards */
+.saas-stat-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+  height: 100%;
+}
+.saas-stat-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: #C7CBFE;
+}
+.saas-stat-icon-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 0.85rem;
+}
+.saas-stat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.saas-stat-value {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-top: 0.2rem;
+  letter-spacing: -0.03em;
+}
+
+/* Standard Premium Cards */
+.saas-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
+}
+.saas-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+/* Badges */
+.saas-badge-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
+}
+
+.saas-badge-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  background-color: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid #C7CBFE;
+}
+
+/* Execution Status Row */
+.execution-status-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #F8FAFC;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+.execution-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--success-text);
+  font-weight: 600;
+}
+
+/* Developer Dark SQL Editor Container */
+.sql-editor-box {
+  background-color: #0F172A !important;
+  border: 1px solid #1E293B !important;
+  border-radius: var(--radius-md) !important;
+  padding: 1rem 1.2rem !important;
+  color: #F8FAFC !important;
+  font-family: var(--font-mono) !important;
+  box-shadow: var(--shadow-md);
+}
+
+/* Standard Buttons */
+.main .stButton > button[kind="primary"] {
+  background: linear-gradient(135deg, #5B5CE2 0%, #7C5CFC 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 4px 12px rgba(91, 92, 226, 0.25) !important;
+}
+
+.main .stButton > button[kind="primary"]:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(91, 92, 226, 0.35) !important;
+}
+
+/* Dataframe Containers */
+.stDataFrame {
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden !important;
+  background-color: #FFFFFF !important;
+}
