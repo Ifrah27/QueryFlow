@@ -15,6 +15,8 @@ from langchain_core.messages import HumanMessage
 from ai_agent.agents.data_agent import data_agent
 from ai_agent.utils.dataset_manager import DatasetManager
 
+from ai_agent.utils.database import get_db_config, get_db_connection
+
 load_dotenv()
 
 app = FastAPI(
@@ -39,19 +41,13 @@ in_memory_query_history: List[Dict[str, Any]] = []
 
 
 def check_db_connection() -> bool:
-    db_name = os.getenv("database", os.getenv("dbname", "project_sql_agent"))
-    user = os.getenv("user", "postgres")
-    password = os.getenv("password", "")
-    host = os.getenv("host", "localhost")
-    port = os.getenv("port", 5432)
     try:
-        conn = psycopg2.connect(
-            dbname=db_name, user=user, password=password, host=host, port=port, connect_timeout=3
-        )
+        conn = get_db_connection()
         conn.close()
         return True
     except Exception:
         return False
+
 
 
 def parse_sql_result_rows(raw_result: str) -> tuple[List[str], List[List[Any]]]:
@@ -96,12 +92,13 @@ class ChatResponse(BaseModel):
 @app.get("/api/health")
 def health_check():
     db_connected = check_db_connection()
-    db_name = os.getenv("database", os.getenv("dbname", "project_sql_agent"))
+    db_cfg = get_db_config()
     return {
         "status": "healthy",
         "database_connected": db_connected,
-        "database_name": db_name
+        "database_name": db_cfg["dbname"]
     }
+
 
 
 @app.get("/api/datasets")

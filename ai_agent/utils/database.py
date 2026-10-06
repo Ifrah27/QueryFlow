@@ -1,14 +1,87 @@
+import os
 import psycopg2
+from urllib.parse import urlparse
+
+
+def get_db_config() -> dict:
+    """
+    Centralized PostgreSQL connection configuration parser.
+    
+    Priority order:
+    1. DATABASE_URL (if set e.g., postgresql://user:password@host:port/dbname)
+    2. Standard uppercase Postgres / Railway env vars (PGHOST, PGPORT, PGDATABASE, PGUSER, PGPASSWORD)
+    3. Alternative Railway / Docker uppercase env vars (POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD)
+    4. Existing lower-case env vars (host, port, database, user, password)
+    5. Local development defaults (localhost, 5432, project_sql_agent, postgres, "")
+    """
+    db_url = os.getenv("DATABASE_URL") or os.getenv("POSTGRES_URL")
+    if db_url:
+        try:
+            parsed = urlparse(db_url)
+            return {
+                "host": parsed.hostname or "localhost",
+                "port": parsed.port or 5432,
+                "dbname": parsed.path.lstrip("/") or "project_sql_agent",
+                "user": parsed.username or "postgres",
+                "password": parsed.password or "",
+            }
+        except Exception:
+            pass
+
+    host = (
+        os.getenv("PGHOST")
+        or os.getenv("POSTGRES_HOST")
+        or os.getenv("host")
+        or "localhost"
+    )
+    port = int(
+        os.getenv("PGPORT")
+        or os.getenv("POSTGRES_PORT")
+        or os.getenv("port")
+        or 5432
+    )
+    dbname = (
+        os.getenv("PGDATABASE")
+        or os.getenv("POSTGRES_DB")
+        or os.getenv("database")
+        or os.getenv("dbname")
+        or "project_sql_agent"
+    )
+    user = (
+        os.getenv("PGUSER")
+        or os.getenv("POSTGRES_USER")
+        or os.getenv("user")
+        or "postgres"
+    )
+    password = (
+        os.getenv("PGPASSWORD")
+        or os.getenv("POSTGRES_PASSWORD")
+        or os.getenv("password")
+        or ""
+    )
+
+    return {
+        "host": host,
+        "port": port,
+        "dbname": dbname,
+        "user": user,
+        "password": password,
+    }
+
+
+def get_db_connection():
+    """Returns a new psycopg2 connection using centralized DB configuration."""
+    cfg = get_db_config()
+    return psycopg2.connect(**cfg)
 
 
 class DatabaseUtil:
 
-    def __init__(self, db_config):
-        self.db_config = db_config
+    def __init__(self, db_config=None):
+        self.db_config = db_config or get_db_config()
 
         try: 
-            self.connection = psycopg2.connect(**db_config) 
-
+            self.connection = psycopg2.connect(**self.db_config) 
         except Exception as e:
             print(f"Error connecting to the database: {e}")
             self.connection = None
@@ -82,14 +155,7 @@ class DatabaseUtil:
 
 
 if __name__ == "__main__":
-    obj = DatabaseUtil({
-        "host": "localhost",
-        "port": 5432,
-        "user": "postgres",
-        "password": "potgres",
-        "dbname": "postgres"
-    })
-
+    obj = DatabaseUtil()
     result = obj.schema_details("public")
 
     with open("test_schema_details.txt", "w") as f:

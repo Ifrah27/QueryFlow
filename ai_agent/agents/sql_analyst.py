@@ -45,17 +45,10 @@ def prompt_query_context(state: AgentSchema) -> AgentSchema:
 
     curated_question = state.curated_ques
 
-    conn_details = {
-        "host": os.environ['host'],
-        "port": os.environ['port'],
-        "user": os.environ['user'],
-        "password": os.environ['password'],
-        "dbname": os.environ['database']
-    }
-
-    obj = DatabaseUtil(conn_details)
+    obj = DatabaseUtil()
 
     schema_info = obj.schema_details("public")  # Fetch schema details for the 'public' schema
+
 
     # Constructing the prompt query for the agent to generate the SQL query
     prompt = f"""
@@ -138,17 +131,10 @@ def execute_sql(state: AgentSchema) -> AgentSchema:
 
     sql_query = state.generated_sql_query
 
-    conn_details = {
-        "host": os.environ['host'],
-        "port": os.environ['port'],
-        "user": os.environ['user'],
-        "password": os.environ['password'],
-        "dbname": os.environ['database']
-    }
-
-    obj = DatabaseUtil(conn_details)
+    obj = DatabaseUtil()
 
     execution_result = obj.execute_sql(sql_query)  # Execute the SQL query on the database
+
 
     state.sql_query_execution_result = execution_result
 
