@@ -156,8 +156,11 @@ def get_query_history():
     return {"history": list(reversed(in_memory_query_history))}
 
 
+import time
+
 @app.post("/api/chat", response_model=ChatResponse)
 def chat_with_agent(req: ChatRequest):
+    t_start = time.time()
     context_prefix = ""
     target_dataset_name = "Built-in Database"
     
@@ -185,6 +188,8 @@ def chat_with_agent(req: ChatRequest):
                 "route_response": ""
             }
         )
+        print(f"[CHAT TIMING TOTAL] End-to-end /api/chat latency: {time.time() - t_start:.3f}s")
+
         
         route = agent_response.get("route_response", "off_topic")
         final_text = agent_response.get("final_answer", "")

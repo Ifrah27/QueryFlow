@@ -45,8 +45,10 @@ def extract_clean_user_message(full_message: str) -> str:
     return msg.strip()
 
 
-def router_node(state:DataAgentSchema):
+import time
 
+def router_node(state:DataAgentSchema):
+    t0 = time.time()
     raw_message = extract_text(state.messages[-1].content)
     clean_message = extract_clean_user_message(raw_message)
     lower_msg = clean_message.lower().strip().rstrip("?.!")
@@ -60,6 +62,7 @@ def router_node(state:DataAgentSchema):
     }
     if lower_msg in greetings:
         state.route_response = "off_topic"
+        print(f"[CHAT TIMING] router_node: {time.time() - t0:.3f}s (fast gate greeting)")
         return state
 
     # 2. Deterministic fast gate for vague / incomplete one-word expressions
@@ -69,6 +72,7 @@ def router_node(state:DataAgentSchema):
     }
     if lower_msg in unclear_phrases:
         state.route_response = "unclear"
+        print(f"[CHAT TIMING] router_node: {time.time() - t0:.3f}s (fast gate unclear)")
         return state
 
     # 3. LLM structured router for semantic classification
@@ -85,12 +89,12 @@ User Input: {clean_message}
 """
 
     route_response_dict = llm_router.invoke(router_prompt).model_dump()
-
     route_response = route_response_dict['answer']
-
     state.route_response = route_response
+    print(f"[CHAT TIMING] router_node: {time.time() - t0:.3f}s (llm route={route_response})")
 
     return state
+
 
 def etl_node(state:DataAgentSchema):
 
