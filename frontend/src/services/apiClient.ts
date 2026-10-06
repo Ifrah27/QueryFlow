@@ -1,7 +1,7 @@
 import type { DatasetInfo, QueryHistoryItem, HealthResponse } from '../types/api';
 import axios from 'axios';
 
-const API_BASE = 'https://queryflow-production-a30c.up.railway.app/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://queryflow-production-a30c.up.railway.app/api';
 
 export const api = {
   checkHealth: async (): Promise<HealthResponse> => {
