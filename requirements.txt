@@ -12,3 +12,4 @@ psycopg2-binary>=2.9.9
 pyarrow>=15.0.0
 requests>=2.31.0
 faker>=24.0.0
+ipython>=8.20.0
