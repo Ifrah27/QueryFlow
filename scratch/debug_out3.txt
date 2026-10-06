@@ -1,0 +1,5 @@
+A. OLD extraction on ETL-route state -> "[CONTEXT: The user has selected uploaded dataset 'heart.csv'. Target PostgreSQL table name is 'uploaded_heart_9b85d1'.]. yo bro"
+B. CURRENT etl_node.final_answer     -> "[{'type': 'text', 'text': 'Hi! How can I help?'}]"
+C. ETL last message is ToolMessage    -> 'raw tool output: rows=3'
+D. LLM failure -> HTTPException 500 Agent execution failed: 429 RESOURCE_EXHAUSTED
+DONE

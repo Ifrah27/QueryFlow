@@ -1,0 +1,3 @@
+=== EXP1: router distribution (6 runs each) ===
+'yo bro'                                 WITH_CTX={'off_topic': 6}  CLEAN={'off_topic': 6}
+'what are you doing'                     WITH_CTX={'off_topic': 6}  CLEAN={'off_topic': 6}
