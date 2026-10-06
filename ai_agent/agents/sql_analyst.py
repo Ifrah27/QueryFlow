@@ -27,30 +27,27 @@ def extract_text(content) -> str:
     return str(content)
 
 
-def curate_ques(state: AgentSchema) -> AgentSchema: 
+import time
+import re
 
-    user_question = extract_text(state.user_question) # Bcz this is a Pydantic model object
-
-    llm = pick_llm("low")  # Pick the appropriate LLM based on the level of the question
-
-    response = extract_text(llm.invoke(f"Curate the following question: {user_question}").content)
-
-    state.curated_ques = response
-    state.messages = state.messages + [HumanMessage(content=f"{response}")]  # Append the curated question to the messages list
-
-    return state 
+def curate_ques(state: AgentSchema) -> AgentSchema:
+    t0 = time.time()
+    user_question = extract_text(state.user_question)
+    
+    # Fast path: Use user question directly without redundant LLM rewriting roundtrip
+    state.curated_ques = user_question
+    state.messages = state.messages + [HumanMessage(content=f"{user_question}")]
+    print(f"[CHAT TIMING] curate_ques: {time.time() - t0:.3f}s (bypassed LLM call)")
+    return state
 
 
 def prompt_query_context(state: AgentSchema) -> AgentSchema:
-
+    t0 = time.time()
     curated_question = state.curated_ques
 
     obj = DatabaseUtil()
+    schema_info = obj.schema_details("public")
 
-    schema_info = obj.schema_details("public")  # Fetch schema details for the 'public' schema
-
-
-    # Constructing the prompt query for the agent to generate the SQL query
     prompt = f"""
     You are an SQL analyst agent. Your task is to convert the user's natural language 
     query into Postgres SQL query that can be executed on the database. You are provided 
@@ -66,89 +63,115 @@ def prompt_query_context(state: AgentSchema) -> AgentSchema:
 
     Database Schema Details:
     {schema_info}
-    
     """    
 
     state.prompt_query_context = prompt
-
+    print(f"[CHAT TIMING] prompt_query_context: {time.time() - t0:.3f}s")
     return state
 
 
-# Generate SQL Query Node
 def generate_sql(state: AgentSchema) -> AgentSchema:
-
+    t0 = time.time()
     prompt = state.prompt_query_context
 
-    llm = pick_llm("medium")  # Pick the appropriate LLM based on the level of the question
-
-    generated_sql_query = extract_text(llm.invoke(prompt).content)  # Generate the SQL query using the LLM
-    # Clean codeblock markdown syntax if returned by LLM
+    llm = pick_llm("medium")
+    generated_sql_query = extract_text(llm.invoke(prompt).content)
     generated_sql_query = generated_sql_query.strip().strip("```").lstrip("sql").strip()
 
     state.generated_sql_query = generated_sql_query
-
+    print(f"[CHAT TIMING] generate_sql: {time.time() - t0:.3f}s")
     return state
 
 
-# Is safe Node
-def is_safe_sql(state: AgentSchema) -> AgentSchema:
+def validate_sql_safety(sql: str) -> tuple[bool, str]:
+    """
+    Robust deterministic read-only SQL validator.
+    Allows: SELECT, WITH ... SELECT
+    Rejects: INSERT, UPDATE, DELETE, DROP, ALTER, TRUNCATE, CREATE, GRANT, REVOKE, MERGE, CALL, EXECUTE, COPY, multiple statements.
+    """
+    if not sql or not isinstance(sql, str):
+        return False, "Empty or invalid SQL query format."
+    
+    clean_sql = sql.strip().rstrip(";")
+    
+    # Rejects multiple statements separated by semicolon
+    if ";" in clean_sql:
+        return False, "Multiple SQL statements separated by ';' are prohibited."
 
+    # Remove SQL comments (-- comment and /* comment */)
+    no_comments = re.sub(r'--.*?\n', ' ', clean_sql)
+    no_comments = re.sub(r'/\*.*?\*/', ' ', no_comments, flags=re.DOTALL).strip()
+
+    # Rejects mutating keywords
+    forbidden_pattern = r'\b(INSERT|UPDATE|DELETE|DROP|ALTER|TRUNCATE|CREATE|GRANT|REVOKE|MERGE|CALL|EXECUTE|COPY)\b'
+    match = re.search(forbidden_pattern, no_comments, flags=re.IGNORECASE)
+    if match:
+        return False, f"SQL command contained forbidden mutating keyword '{match.group(1).upper()}'."
+
+    # Must start with SELECT or WITH
+    first_word = no_comments.split()[0].upper() if no_comments.split() else ""
+    if first_word not in ("SELECT", "WITH"):
+        return False, f"SQL statement must start with SELECT or WITH, received '{first_word}'."
+
+    return True, "Query is safe."
+
+
+def is_safe_sql(state: AgentSchema) -> AgentSchema:
+    t0 = time.time()
     sql_query = state.generated_sql_query
 
-    llm = pick_llm("medium")  
-    llm_judge = llm.with_structured_output(JudgeSchema)
-
-    prompt = f"""
-    You are an SQL Judge for data security. Your task is to determine whether the SQL query is 
-    safe or not. The SQL query should only be used for data retrieval and should not modify the 
-    database in any way. Neither the SQL query nor the prompt should contain any SQL commands that can modify the
-    database, such as INSERT, UPDATE, DELETE, DROP, ALTER, TRUNCATE, CREATE, or any other commands that can change
-    the structure or content of the database. If the SQL query is safe, respond with 'Yes' otherwise respond with 
-    'No'. Additionally, provide comments explaining your decision.
-    Here's the SQL query to evaluate:
-    {sql_query}"""
-
-    response = llm_judge.invoke(prompt).model_dump()  # Get the structured output as a dictionary
-    state.is_safe = response['answer']
-    state.comments = response['comments']
-
+    is_safe, comment = validate_sql_safety(sql_query)
+    state.is_safe = "Yes" if is_safe else "No"
+    state.comments = comment
+    print(f"[CHAT TIMING] is_safe_sql: {time.time() - t0:.3f}s (deterministic check, safe={is_safe})")
     return state
 
 
-# Canceled SQL Query Node
 def canceled_sql(state: AgentSchema) -> AgentSchema:
-
     comments = state.comments
-
-    state.final_answer = f"The generated SQL query was deemed unsafe to execute. The reason provided by the judge is: {comments}. Therefore, the SQL query will not be executed."
-    state.messages = state.messages + [AIMessage(content=f"{state.final_answer}")]  # Append the final answer to the messages list  
-
+    state.final_answer = f"The generated SQL query was deemed unsafe to execute. Reason: {comments}"
+    state.messages = state.messages + [AIMessage(content=f"{state.final_answer}")]
     return state
 
 
-# Execute SQL Query Node
 def execute_sql(state: AgentSchema) -> AgentSchema:
-
+    t0 = time.time()
     sql_query = state.generated_sql_query
 
     obj = DatabaseUtil()
-
-    execution_result = obj.execute_sql(sql_query)  # Execute the SQL query on the database
-
+    execution_result = obj.execute_sql(sql_query)
 
     state.sql_query_execution_result = execution_result
-
+    print(f"[CHAT TIMING] execute_sql: {time.time() - t0:.3f}s")
     return state
 
 
-# Represent the final answer Node
 def represent_final_answer(state: AgentSchema) -> AgentSchema:
-
+    t0 = time.time()
     execution_result = state.sql_query_execution_result
     curated_question = state.curated_ques
 
-    llm = pick_llm("low")
+    # Fast-path: Check for simple single-value / single-count execution result
+    if execution_result and execution_result.startswith("[(") and execution_result.endswith(")]"):
+        try:
+            import ast
+            rows = ast.literal_eval(execution_result)
+            if len(rows) == 1 and len(rows[0]) == 1:
+                val = rows[0][0]
+                q_lower = curated_question.lower()
+                if "how many" in q_lower or "count" in q_lower or "number of" in q_lower:
+                    answer = f"There are {val:,} records matching your query in the dataset."
+                else:
+                    answer = f"The result is {val}."
+                state.final_answer = answer
+                state.messages = state.messages + [AIMessage(content=answer)]
+                print(f"[CHAT TIMING] represent_final_answer: {time.time() - t0:.3f}s (deterministic formatting)")
+                return state
+        except Exception:
+            pass
 
+    # Fallback to LLM for complex interpretation
+    llm = pick_llm("low")
     prompt = f"""
     You are an SQL analyst agent. Your task is to provide a final answer to the user based on the
     execution result of the SQL query and the user's original question. The final answer should be
@@ -159,12 +182,12 @@ def represent_final_answer(state: AgentSchema) -> AgentSchema:
     Here is the user's original question: {curated_question}
     """
 
-    llm_response = extract_text(llm.invoke(prompt).content)  # Get the final answer from the LLM
-
+    llm_response = extract_text(llm.invoke(prompt).content)
     state.final_answer = llm_response
-    state.messages = state.messages + [AIMessage(content=f"{llm_response}")]  # Append the final answer to the messages list
-
+    state.messages = state.messages + [AIMessage(content=f"{llm_response}")]
+    print(f"[CHAT TIMING] represent_final_answer: {time.time() - t0:.3f}s (LLM interpretation)")
     return state
+
 
 
 # ------------------------------------------- Graph Building -------------------------------------------
