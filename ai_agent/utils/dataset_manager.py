@@ -4,26 +4,23 @@ import uuid
 import psycopg2
 import pandas as pd
 from sqlalchemy import create_engine
+from ai_agent.utils.database import get_db_config, get_db_connection
 from dotenv import load_dotenv
 
 load_dotenv()
 
 class DatasetManager:
     def __init__(self):
-        self.db_name = os.getenv("database", os.getenv("dbname", "project_sql_agent"))
-        self.user = os.getenv("user", "postgres")
-        self.password = os.getenv("password", "")
-        self.host = os.getenv("host", "localhost")
-        self.port = os.getenv("port", "5432")
+        cfg = get_db_config()
+        self.db_name = cfg["dbname"]
+        self.user = cfg["user"]
+        self.password = cfg["password"]
+        self.host = cfg["host"]
+        self.port = str(cfg["port"])
 
     def _get_connection(self):
-        return psycopg2.connect(
-            dbname=self.db_name,
-            user=self.user,
-            password=self.password,
-            host=self.host,
-            port=self.port
-        )
+        return get_db_connection()
+
 
     def sanitize_column_name(self, col_name: str) -> str:
         """Sanitizes raw column names into safe PostgreSQL identifiers."""

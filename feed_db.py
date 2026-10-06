@@ -3,36 +3,23 @@ import csv
 import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
+from ai_agent.utils.database import get_db_config, get_db_connection
 load_dotenv()
 
-if 'port' not in os.environ:
-    os.environ['port'] = '5432'
-
 # ============================================================
-# CONFIGURATION
+# CONFIGURATION & CONNECTION
 # ============================================================
 
-DB_CONFIG = {
-    "host": os.environ['host'],
-    "port": int(os.environ['port']),
-    "database": os.environ['database'],
-    "user": os.environ['user'],
-    "password": os.environ['password'],
-}
-
+DB_CONFIG = get_db_config()
 CSV_DIR = "data"
 
-
-# ============================================================
-# DATABASE CONNECTION
-# ============================================================
-
-conn = psycopg2.connect(**DB_CONFIG)
+conn = get_db_connection()
 conn.autocommit = False
 
 cursor = conn.cursor()
 
 print("Connected to PostgreSQL")
+
 
 
 # ============================================================
